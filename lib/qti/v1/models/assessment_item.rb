@@ -29,7 +29,7 @@ module Qti
         end
 
         def qti_metadata_children
-          @doc.at_xpath('.//xmlns:qtimetadata')&.children
+          @doc.at_xpath('.//xmlns:qtimetadata').try(:children)
         end
 
         def has_points_possible_qti_metadata?
@@ -47,7 +47,7 @@ module Qti
               points_possible_label = qti_metadata_children.children.find {|node| node.text == "points_possible"}
               points_possible_node = points_possible_label.next.text
             else
-              @doc.at_xpath('.//xmlns:decvar/@maxvalue')&.value || @doc.at_xpath('.//xmlns:decvar/@defaultval')&.value
+              @doc.at_xpath('.//xmlns:decvar/@maxvalue').try(:value) || @doc.at_xpath('.//xmlns:decvar/@defaultval').try(:value)
             end
           end
         end

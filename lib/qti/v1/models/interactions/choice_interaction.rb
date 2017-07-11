@@ -7,7 +7,7 @@ module Qti
           def self.matches(node)
             matches = node.xpath('.//xmlns:response_lid')
             return false if matches.count > 1  || matches.empty?
-            rcardinality = matches.first.attributes['rcardinality']&.value || 'Single'
+            rcardinality = matches.first.attributes['rcardinality'].try(:value) || 'Single'
             return false if rcardinality == 'Ordered'
             new(node)
           end

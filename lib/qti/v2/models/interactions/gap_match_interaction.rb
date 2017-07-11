@@ -14,7 +14,7 @@ module Qti
           end
 
           def shuffled?
-            @node.at_xpath('.//xmlns:gapMatchInteraction').attributes['shuffle']&.value.try(:downcase) == 'true'
+            @node.at_xpath('.//xmlns:gapMatchInteraction').attributes['shuffle'].try(:value).try(:downcase) == 'true'
           end
 
           def clean_stem_items
@@ -97,8 +97,8 @@ module Qti
             question_response_pairs.map!{ |qrp| qrp.reverse }
             question_response_id_mapping = Hash[question_response_pairs]
             answer_nodes.map { |value_node|
-              node_id = value_node.attributes['identifier']&.value
-              answer_choice = choices.find{ |choice| choice.attributes['identifier']&.value == question_response_id_mapping[node_id] }
+              node_id = value_node.attributes['identifier'].try(:value)
+              answer_choice = choices.find{ |choice| choice.attributes['identifier'].try(:value) == question_response_id_mapping[node_id] }
               ScoringData.new(
                 answer_choice.content,
                 'directedPair',

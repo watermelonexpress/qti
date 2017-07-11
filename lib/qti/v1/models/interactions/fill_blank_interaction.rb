@@ -53,8 +53,8 @@ module Qti
                 value_node.content,
                 rcardinality,
                 {
-                  id: value_node.attributes['respident']&.value,
-                  case: value_node.attributes['case']&.value
+                  id: value_node.attributes['respident'].try(:value),
+                  case: value_node.attributes['case'].try(:value)
                 }
               )
             }
@@ -63,8 +63,8 @@ module Qti
           private
 
           def rcardinality
-            @rcardinality ||= @node.at_xpath('.//xmlns:response_str/@rcardinality')&.value ||
-              @node.at_xpath('.//xmlns:response_num/@rcardinality')&.value
+            @rcardinality ||= @node.at_xpath('.//xmlns:response_str/@rcardinality').try(:value) ||
+              @node.at_xpath('.//xmlns:response_num/@rcardinality').try(:value)
           end
 
           def answer_nodes
